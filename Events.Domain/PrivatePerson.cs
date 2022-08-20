@@ -3,10 +3,12 @@ namespace Events.Domain
 {
     public class PrivatePerson
     {
-        public Guid Id { get; set; }
+        public int PrivatePersonId { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public Participant? Participant { get; set; }
+
+        public ICollection<Event>? Events { get; set; }
+        public List<EventPrivatePerson>? EventPrivatePeople { get; set; }
     }
 }

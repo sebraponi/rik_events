@@ -9,7 +9,9 @@ namespace Events.Domain
         public string EventVenue { get; set; } = string.Empty;
         public DateTime Date { get; set; }
 
-        public ICollection<Participant>? Participants { get; set; }
-        public List<EventParticipant>? EventParticipants { get; set; }
+        public ICollection<PrivatePerson>? PrivatePeople { get; set; }
+        public List<EventPrivatePerson>? EventPrivatePeople { get; set; }
+        public ICollection<Company>? Companies { get; set; }
+        public List<EventCompany>? EventCompanies { get; set; }
     }
 }

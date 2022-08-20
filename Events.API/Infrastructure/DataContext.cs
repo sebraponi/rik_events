@@ -9,28 +9,44 @@ namespace Events.API.Infrastructure
             : base(opts) { }
 
         public DbSet<Event> Events => Set<Event>();
-        public DbSet<Participant> Participants => Set<Participant>();
-        public DbSet<JuridicalPerson> JuridicalPersons => Set<JuridicalPerson>();
-        public DbSet<PrivatePerson> PrivatePersons => Set<PrivatePerson>();
+        public DbSet<PrivatePerson> PrivatePeople => Set<PrivatePerson>();
+        public DbSet<Company> Companies => Set<Company>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Event>()
-                .HasMany(p => p.Participants)
+                .HasMany(p => p.PrivatePeople)
                 .WithMany(p => p.Events)
-                .UsingEntity<EventParticipant>(
+                .UsingEntity<EventPrivatePerson>(
                     j => j
-                        .HasOne(pt => pt.Participant)
-                        .WithMany(t => t.EventParticipants)
-                        .HasForeignKey(pt => pt.ParticipantId),
+                        .HasOne(pt => pt.PrivatePerson)
+                        .WithMany(t => t.EventPrivatePeople)
+                        .HasForeignKey(pt => pt.PrivatePersonId),
                     j => j
                         .HasOne(pt => pt.Event)
-                        .WithMany(p => p.EventParticipants)
+                        .WithMany(p => p.EventPrivatePeople)
                         .HasForeignKey(pt => pt.EventId),
                     j =>
                     {
-                        j.HasKey(t => new { t.EventId, t.ParticipantId });
+                        j.HasKey(t => new { t.EventId, t.PrivatePersonId });
                     });
+
+            modelBuilder.Entity<Event>()
+                  .HasMany(p => p.Companies)
+                  .WithMany(p => p.Events)
+                  .UsingEntity<EventCompany>(
+                      j => j
+                          .HasOne(pt => pt.Company)
+                          .WithMany(t => t.EventCompanies)
+                          .HasForeignKey(pt => pt.CompanyId),
+                      j => j
+                          .HasOne(pt => pt.Event)
+                          .WithMany(p => p.EventCompanies)
+                          .HasForeignKey(pt => pt.EventId),
+                      j =>
+                      {
+                          j.HasKey(t => new { t.EventId, t.CompanyId });
+                      });
         }
     }
 }
