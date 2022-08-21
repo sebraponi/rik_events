@@ -5,7 +5,7 @@ using Events.API.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DataContext>(opts =>
 {
@@ -14,7 +14,16 @@ builder.Services.AddDbContext<DataContext>(opts =>
     opts.EnableSensitiveDataLogging(true);
 });
 
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options => {
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
+
+app.MapControllers();
 
 var context = app.Services.CreateScope().ServiceProvider
     .GetRequiredService<DataContext>();
@@ -35,6 +44,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.UseSession();
 app.Run();
