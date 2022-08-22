@@ -1,14 +1,14 @@
 ﻿
 namespace Events.Domain
 {
-    public class PrivatePerson
+    public class Person
     {
-        public int PrivatePersonId { get; set; }
+        public int PersonId { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
         public ICollection<Event>? Events { get; set; }
-        public List<EventPrivatePerson>? EventPrivatePeople { get; set; }
+        public List<EventPerson>? EventPersons { get; set; }
     }
 }

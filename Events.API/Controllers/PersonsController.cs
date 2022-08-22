@@ -10,11 +10,11 @@ using Events.Domain;
 
 namespace Events.API.Controllers
 {
-    public class PrivatePersonsController : Controller
+    public class PersonsController : Controller
     {
         private readonly DataContext _context;
 
-        public PrivatePersonsController(DataContext context)
+        public PersonsController(DataContext context)
         {
             _context = context;
         }
@@ -36,7 +36,7 @@ namespace Events.API.Controllers
             }
 
             var privatePerson = await _context.PrivatePeople
-                .FirstOrDefaultAsync(m => m.PrivatePersonId == id);
+                .FirstOrDefaultAsync(m => m.PersonId == id);
             if (privatePerson == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace Events.API.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PrivatePersonId,FirstName,LastName,Description")] PrivatePerson privatePerson)
+        public async Task<IActionResult> Create([Bind("PersonId,FirstName,LastName,Description")] Person privatePerson)
         {
             if (ModelState.IsValid)
             {
@@ -88,9 +88,9 @@ namespace Events.API.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PrivatePersonId,FirstName,LastName,Description")] PrivatePerson privatePerson)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonId,FirstName,LastName,Description")] Person privatePerson)
         {
-            if (id != privatePerson.PrivatePersonId)
+            if (id != privatePerson.PersonId)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace Events.API.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PrivatePersonExists(privatePerson.PrivatePersonId))
+                    if (!PrivatePersonExists(privatePerson.PersonId))
                     {
                         return NotFound();
                     }
@@ -127,7 +127,7 @@ namespace Events.API.Controllers
             }
 
             var privatePerson = await _context.PrivatePeople
-                .FirstOrDefaultAsync(m => m.PrivatePersonId == id);
+                .FirstOrDefaultAsync(m => m.PersonId == id);
             if (privatePerson == null)
             {
                 return NotFound();
@@ -157,7 +157,7 @@ namespace Events.API.Controllers
 
         private bool PrivatePersonExists(int id)
         {
-          return (_context.PrivatePeople?.Any(e => e.PrivatePersonId == id)).GetValueOrDefault();
+          return (_context.PrivatePeople?.Any(e => e.PersonId == id)).GetValueOrDefault();
         }
     }
 }

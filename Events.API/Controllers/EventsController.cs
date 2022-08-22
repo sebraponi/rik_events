@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.API.Infrastructure;
 using Events.Domain;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Events.API.Controllers
 {
@@ -19,6 +20,8 @@ namespace Events.API.Controllers
             _context = context;
         }
 
+
+
         // GET: Events
         public async Task<IActionResult> Index()
         {
@@ -28,8 +31,11 @@ namespace Events.API.Controllers
         }
 
         // GET: Events/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, Person privatePerson)
         {
+            ViewBag.FirstName = privatePerson.FirstName;
+            ViewBag.LastName = privatePerson.LastName;
+            ViewBag.Description = privatePerson.Description;
             if (id == null || _context.Events == null)
             {
                 return NotFound();
@@ -67,6 +73,15 @@ namespace Events.API.Controllers
             
         }
 
+        [HttpPost]
+        public ActionResult CreatePerson(FormCollection collection)
+        {
+            _context.Add(collection);
+            _context.SaveChanges();
+            return View("../Events/Index");
+        }
+
+
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -74,7 +89,6 @@ namespace Events.API.Controllers
             {
                 return NotFound();
             }
-
             var @event = await _context.Events.FindAsync(id);
             if (@event == null)
             {

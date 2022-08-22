@@ -9,7 +9,7 @@ namespace Events.API.Infrastructure
             : base(opts) { }
 
         public DbSet<Event> Events => Set<Event>();
-        public DbSet<PrivatePerson> PrivatePeople => Set<PrivatePerson>();
+        public DbSet<Person> PrivatePeople => Set<Person>();
         public DbSet<Company> Companies => Set<Company>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -17,18 +17,18 @@ namespace Events.API.Infrastructure
             modelBuilder.Entity<Event>()
                 .HasMany(p => p.PrivatePeople)
                 .WithMany(p => p.Events)
-                .UsingEntity<EventPrivatePerson>(
+                .UsingEntity<EventPerson>(
                     j => j
-                        .HasOne(pt => pt.PrivatePerson)
-                        .WithMany(t => t.EventPrivatePeople)
-                        .HasForeignKey(pt => pt.PrivatePersonId),
+                        .HasOne(pt => pt.Person)
+                        .WithMany(t => t.EventPersons)
+                        .HasForeignKey(pt => pt.PersonId),
                     j => j
                         .HasOne(pt => pt.Event)
                         .WithMany(p => p.EventPrivatePeople)
                         .HasForeignKey(pt => pt.EventId),
                     j =>
                     {
-                        j.HasKey(t => new { t.EventId, t.PrivatePersonId });
+                        j.HasKey(t => new { t.EventId, t.PersonId });
                     });
 
             modelBuilder.Entity<Event>()

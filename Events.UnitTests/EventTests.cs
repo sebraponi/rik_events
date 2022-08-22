@@ -45,9 +45,9 @@ namespace Events.UnitTests
                 EventDescription = "Suvi Rakveres"
             };
 
-            var e = new PrivatePerson
+            var e = new Person
             {
-                PrivatePersonId = 11,
+                PersonId = 11,
                 FirstName = "Katri",
                 LastName = "Mutri"
             };
@@ -58,10 +58,10 @@ namespace Events.UnitTests
                 Name = "Kalamaja Puhvet"
             };
 
-            var ep = new EventPrivatePerson
+            var ep = new EventPerson
             {
                 EventId = p.EventId,
-                PrivatePersonId = e.PrivatePersonId
+                PersonId = e.PersonId
             };
 
             var ec = new EventCompany
@@ -71,7 +71,7 @@ namespace Events.UnitTests
             };
 
             Assert.Equal(ep.EventId, p.EventId);
-            Assert.Equal(ep.PrivatePersonId, e.PrivatePersonId);
+            Assert.Equal(ep.PersonId, e.PersonId);
             Assert.Equal(ec.CompanyId, c.CompanyId);
         }
     }

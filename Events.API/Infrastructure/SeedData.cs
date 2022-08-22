@@ -28,17 +28,17 @@ namespace Events.API.Infrastructure
                
 
                 context.PrivatePeople.AddRange(
-                    new PrivatePerson
+                    new Person
                     {
                         FirstName = "Katri",
                         LastName = "Mutri"
                     },
-                    new PrivatePerson
+                    new Person
                     {
                         FirstName = "Mari",
                         LastName = "Muri",
                     },
-                    new PrivatePerson
+                    new Person
                     {
                         FirstName = "Paul",
                         LastName = "Saul"

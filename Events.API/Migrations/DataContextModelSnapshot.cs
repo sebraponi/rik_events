@@ -86,28 +86,28 @@ namespace Events.API.Migrations
                     b.ToTable("EventCompany");
                 });
 
-            modelBuilder.Entity("Events.Domain.EventPrivatePerson", b =>
+            modelBuilder.Entity("Events.Domain.EventPerson", b =>
                 {
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PrivatePersonId")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
-                    b.HasKey("EventId", "PrivatePersonId");
+                    b.HasKey("EventId", "PersonId");
 
-                    b.HasIndex("PrivatePersonId");
+                    b.HasIndex("PersonId");
 
-                    b.ToTable("EventPrivatePerson");
+                    b.ToTable("EventPerson");
                 });
 
-            modelBuilder.Entity("Events.Domain.PrivatePerson", b =>
+            modelBuilder.Entity("Events.Domain.Person", b =>
                 {
-                    b.Property<int>("PrivatePersonId")
+                    b.Property<int>("PersonId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrivatePersonId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonId"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -121,7 +121,7 @@ namespace Events.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PrivatePersonId");
+                    b.HasKey("PersonId");
 
                     b.ToTable("PrivatePeople");
                 });
@@ -145,23 +145,23 @@ namespace Events.API.Migrations
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("Events.Domain.EventPrivatePerson", b =>
+            modelBuilder.Entity("Events.Domain.EventPerson", b =>
                 {
                     b.HasOne("Events.Domain.Event", "Event")
-                        .WithMany("EventPrivatePeople")
+                        .WithMany("EventPersons")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Events.Domain.PrivatePerson", "PrivatePerson")
-                        .WithMany("EventPrivatePeople")
-                        .HasForeignKey("PrivatePersonId")
+                    b.HasOne("Events.Domain.Person", "Person")
+                        .WithMany("EventPersons")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Event");
 
-                    b.Navigation("PrivatePerson");
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Events.Domain.Company", b =>
@@ -173,12 +173,12 @@ namespace Events.API.Migrations
                 {
                     b.Navigation("EventCompanies");
 
-                    b.Navigation("EventPrivatePeople");
+                    b.Navigation("EventPersons");
                 });
 
-            modelBuilder.Entity("Events.Domain.PrivatePerson", b =>
+            modelBuilder.Entity("Events.Domain.Person", b =>
                 {
-                    b.Navigation("EventPrivatePeople");
+                    b.Navigation("EventPersons");
                 });
 #pragma warning restore 612, 618
         }

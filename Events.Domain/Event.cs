@@ -19,8 +19,8 @@ namespace Events.Domain
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
         
-        public ICollection<PrivatePerson>? PrivatePeople { get; set; }
-        public List<EventPrivatePerson>? EventPrivatePeople { get; set; }
+        public ICollection<Person>? PrivatePeople { get; set; }
+        public List<EventPerson>? EventPrivatePeople { get; set; }
         public ICollection<Company>? Companies { get; set; }
         public List<EventCompany>? EventCompanies { get; set; }
     }

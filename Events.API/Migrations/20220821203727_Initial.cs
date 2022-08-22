@@ -79,7 +79,7 @@ namespace Events.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EventPrivatePerson",
+                name: "EventPerson",
                 columns: table => new
                 {
                     EventId = table.Column<int>(type: "int", nullable: false),
@@ -98,7 +98,7 @@ namespace Events.API.Migrations
                         name: "FK_EventPrivatePerson_PrivatePeople_PrivatePersonId",
                         column: x => x.PrivatePersonId,
                         principalTable: "PrivatePeople",
-                        principalColumn: "PrivatePersonId",
+                        principalColumn: "PersonId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -109,8 +109,8 @@ namespace Events.API.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventPrivatePerson_PrivatePersonId",
-                table: "EventPrivatePerson",
-                column: "PrivatePersonId");
+                table: "EventPerson",
+                column: "PersonId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -119,7 +119,7 @@ namespace Events.API.Migrations
                 name: "EventCompany");
 
             migrationBuilder.DropTable(
-                name: "EventPrivatePerson");
+                name: "EventPerson");
 
             migrationBuilder.DropTable(
                 name: "Companies");
