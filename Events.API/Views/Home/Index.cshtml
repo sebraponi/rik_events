@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Events.Domain.Event>
+
+@{
     Layout = "_Layout";
     ViewData["Title"] = "Home Page";
 }
@@ -7,7 +9,8 @@
 <div class="card text-bg-light mb-3">
     <div class="card-header text-center">Tulevased üritused</div>
     <div class="card-body">
-        <h5 class="card-title"></h5>
-        <p class="card-text"></p>
+        <table class="table">
+
+        </table>
     </div>
 </div>

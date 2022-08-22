@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.API.Infrastructure;
 using Events.Domain;
@@ -51,16 +56,15 @@ namespace Events.API.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventTitle,EventDescription,EventVenue,Date")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventId,EventTitle,Date,EventVenue,EventDescription")] Event @event)
         {
-            if (ModelState.IsValid)
-            {
-               
-                _context.Update(@event);
+  /*          if (ModelState.IsValid)
+            {*/
+                _context.Add(@event);
                 await _context.SaveChangesAsync();
-                return View("../Home/Index");
-            }
-            return View();
+                return View("../Events/Index");
+            //
+            
         }
 
         // GET: Events/Edit/5
@@ -84,7 +88,7 @@ namespace Events.API.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTitle,EventDescription,EventVenue,Date")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTitle,EventDescription,Date,EventVenue")] Event @event)
         {
             if (id != @event.EventId)
             {

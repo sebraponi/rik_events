@@ -56,8 +56,7 @@ namespace Events.API.Migrations
 
                     b.Property<string>("EventDescription")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventTitle")
                         .IsRequired()

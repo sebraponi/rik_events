@@ -1,42 +1,89 @@
-﻿@model Events.Domain.Event
+﻿@using Events.Domain
+@model Events.Domain.Event
 
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<style type="text/css">
+    .image-container {
+        background-image: url(../../libled.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventTitle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventTitle)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EventVenue)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EventVenue)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-    </dl>
+    .text-bg-custom {
+        background-color: #205aa0;
+        color: #fff !important;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 col-md-3 text-bg-custom text-center">
+            <p class="fw-light fs-1 my-2">Osavõtjad</p>
+        </div>
+        <div class="col-md-8 image-container">
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.EventId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="container mx-auto">
+    <div class="row justify-content-md-center">
+        <div class="col-md-5">
+            <p class="py-3 fw-light fs-2">Osavõtjad</p>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model =>  model.EventTitle)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.EventTitle)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Date)
+                </dd>
+                <dt class = "col-sm-4">
+                    @Html.DisplayNameFor(model => model.EventVenue)
+                </dt>
+                <dd class = "col-sm-8">
+                    @Html.DisplayFor(model => model.EventVenue)
+                </dd>
+
+                @*@Html.DisplayFor(model => model.Events.EventCompanies)*@
+            </dl>
+            </div>
+        </div>
+    </div>
+
+<label><input id="rdb1" type="radio" name="toggler" value="1" />Eraisik</label>
+<label><input id="rdb2" type="radio" name="toggler" value="2" />Ettevõte</label>
+
+<div id="hide-1" style="display:none">
+    private form
 </div>
+
+<div id="hide-2" style="display:none">
+    company form
+</div>
+
+    <script>
+
+        $("input:radio").click(function () {
+            $("div").hide();
+            var div = "#hide-" + $(this).val();
+            $(div).show();
+        });
+    </script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}
+
+

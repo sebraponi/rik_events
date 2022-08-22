@@ -1,38 +1,26 @@
-using Microsoft.EntityFrameworkCore;
-using Events.Domain;
 using Events.API.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
 builder.Services.AddDbContext<DataContext>(opts =>
-{
-    opts.UseSqlServer(builder.Configuration[
-        "ConnectionStrings:ProductConnection"]);
-    opts.EnableSensitiveDataLogging(true);
-});
+        opts.UseSqlServer(builder.Configuration.GetConnectionString("DataContext")));
 
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options => {
-    options.Cookie.IsEssential = true;
-});
 
 var app = builder.Build();
 
-app.MapControllers();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
 
-var context = app.Services.CreateScope().ServiceProvider
-    .GetRequiredService<DataContext>();
-SeedData.SeedDatabase(context);
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -46,7 +34,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Events}/{action=Index}/{id?}");
 
-app.UseSession();
 app.Run();
