@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Events.Domain;
-using Events.API.ViewModels;
 
 
 namespace Events.API.Infrastructure
