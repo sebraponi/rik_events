@@ -1,10 +1,11 @@
-﻿@using Events.Domain
+﻿
 @model Events.Domain.Event
 
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Details";
 }
+
 
 <style type="text/css">
     .image-container {
@@ -17,6 +18,22 @@
     .text-bg-custom {
         background-color: #205aa0;
         color: #fff !important;
+    }
+
+    .bussines-type .business-fields {
+        display: none;
+    }
+
+    .bussines-type .private-fields {
+        display: none;
+    }
+
+    .bussines-type input[value="1"]:checked ~ .private-fields {
+        display: block;
+    }
+
+    .bussines-type input[value="2"]:checked ~ .business-fields {
+        display: block;
     }
 </style>
 
@@ -53,66 +70,70 @@
                 <dd class = "col-sm-8">
                     @Html.DisplayFor(model => model.EventVenue)
                 </dd>
-
-                @*@Html.DisplayFor(model => model.Events.EventCompanies)*@
             </dl>
             </div>
         </div>
     </div>
 
-<h1>Create</h1>
+@foreach (var person in Model.EventPersons)
+{
+    <table>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelPerson => person.Person.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelPerson => person.Person.PersonalCode)
+            </td>
+            <td>
+                <a asp-controller="Persons" asp-action="Details" asp-route-id="@person.PersonId" class="text-decoration-none">VAATA</a>
+            </td>
+            <td>
+                <a asp-controller="Persons" asp-action="Delete" asp-route-id="@person.PersonId" class="text-decoration-none">KUSTUTA</a>
+            </td>
+        </tr>
+    </table>
+}
 
-<h4>PrivatePerson</h4>
+@foreach (var company in Model.EventCompanies)
+{
+    <table>
+       <tr>
+            <td>
+                @Html.DisplayFor(modelPerson => company.Company.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelPerson => company.Company.RegistryCode)
+            </td>
+            <td>
+                <a asp-controller="Companies" asp-action="Details" asp-route-id="@company.CompanyId" class="text-decoration-none">VAATA</a>
+            </td>
+            <td>
+                <a asp-controller="Companies" asp-action="Delete" asp-route-id="@company.CompanyId" class="text-decoration-none">KUSTUTA</a>
+            </td>
+        </tr>
+    </table>
+}
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreatePerson">
-            <div class="form-group">
-                <label name="@ViewBag.FirstName" class="control-label"></label>
-                <input name="@ViewBag.FirstName" class="form-control" />
-                <span name="@ViewBag.FirstName" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <input asp-action="CreatePerson" type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+<div class="bussines-type">
+    <input id="bt1" type="radio" name="type" value="1">
+    <label for="bt1"> Eraisik</label>
+    <input id="bt2" type="radio" name="type" value="2">
+    <label for="bt2"> Ettevõte</label>
+
+    <div class="private-fields">
+        @await Component.InvokeAsync("Persons", new { id = Model.EventId })
+    </div>
+    <div class="business-fields">
+        @await Component.InvokeAsync("Companies", new { id = Model.EventId })
     </div>
 </div>
 
-<label><input id="rdb1" type="radio" name="toggler" value="1" />Eraisik</label>
-<label><input id="rdb2" type="radio" name="toggler" value="2" />Ettevõte</label>
-
-<div id="hide-1" style="display:none">
-    private form
-</div>
-
-<div id="hide-2" style="display:none">
-    company form
-</div>
-
-    <script>
-
-        $("input:radio").click(function () {
-            $("div").hide();
-            var div = "#hide-" + $(this).val();
-            $(div).show();
-        });
-    </script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
 }
 
 

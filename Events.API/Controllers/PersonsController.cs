@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.API.Infrastructure;
 using Events.Domain;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Logging;
 
 namespace Events.API.Controllers
 {
@@ -22,20 +24,20 @@ namespace Events.API.Controllers
         // GET: PrivatePersons
         public async Task<IActionResult> Index()
         {
-              return _context.PrivatePeople != null ? 
-                          View(await _context.PrivatePeople.ToListAsync()) :
-                          Problem("Entity set 'DataContext.PrivatePeople'  is null.");
+              return _context.People != null ? 
+                          View(await _context.People.ToListAsync()) :
+                          Problem("Entity set 'DataContext.EventPersons'  is null.");
         }
 
         // GET: PrivatePersons/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.PrivatePeople == null)
+            if (id == null || _context.People == null)
             {
                 return NotFound();
             }
 
-            var privatePerson = await _context.PrivatePeople
+            var privatePerson = await _context.People
                 .FirstOrDefaultAsync(m => m.PersonId == id);
             if (privatePerson == null)
             {
@@ -46,36 +48,61 @@ namespace Events.API.Controllers
         }
 
         // GET: PrivatePersons/Create
-        public IActionResult Create()
+/*        public IActionResult Create()
         {
             return View();
         }
-
+*/
         // POST: PrivatePersons/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonId,FirstName,LastName,Description")] Person privatePerson)
+        public async Task<IActionResult> Create([Bind("PersonId,FirstName,LastName,PersonalCode,PaymentType,Description,EventID")] Person person)
         {
+            int Id = person.EventID;
+            var pId = person.PersonId;
+
+
+
             if (ModelState.IsValid)
             {
-                _context.Add(privatePerson);
+                _context.Add(person);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var eventperson = new EventPerson
+                {
+                    EventId = person.EventID,
+                    PersonId = person.PersonId
+                };
+
+                ModelState.Clear();
+
+                var eventPersonInDatabase = _context.PublicPeople.Where(
+                    p =>
+                        p.Event.EventId == eventperson.EventId &&
+                        p.Person.PersonId == eventperson.PersonId).SingleOrDefault();
+
+                                if (eventPersonInDatabase == null)
+                                {
+                                    _context.PublicPeople.Add(eventperson);
+                                }
+                await _context.SaveChangesAsync();
+
+                RedirectToAction("Details", "Events", new { id = Id });
             }
-            return View(privatePerson);
+            return RedirectToAction("Details", "Events", new { id = Id });
         }
 
         // GET: PrivatePersons/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.PrivatePeople == null)
+            if (id == null || _context.People == null)
             {
                 return NotFound();
             }
 
-            var privatePerson = await _context.PrivatePeople.FindAsync(id);
+            var privatePerson = await _context.People.FindAsync(id);
             if (privatePerson == null)
             {
                 return NotFound();
@@ -121,12 +148,12 @@ namespace Events.API.Controllers
         // GET: PrivatePersons/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.PrivatePeople == null)
+            if (id == null || _context.People == null)
             {
                 return NotFound();
             }
 
-            var privatePerson = await _context.PrivatePeople
+            var privatePerson = await _context.People
                 .FirstOrDefaultAsync(m => m.PersonId == id);
             if (privatePerson == null)
             {
@@ -141,23 +168,23 @@ namespace Events.API.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.PrivatePeople == null)
+            if (_context.People == null)
             {
-                return Problem("Entity set 'DataContext.PrivatePeople'  is null.");
+                return Problem("Entity set 'DataContext.EventPersons'  is null.");
             }
-            var privatePerson = await _context.PrivatePeople.FindAsync(id);
+            var privatePerson = await _context.People.FindAsync(id);
             if (privatePerson != null)
             {
-                _context.PrivatePeople.Remove(privatePerson);
+                _context.People.Remove(privatePerson);
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Events");
         }
 
         private bool PrivatePersonExists(int id)
         {
-          return (_context.PrivatePeople?.Any(e => e.PersonId == id)).GetValueOrDefault();
+          return (_context.People?.Any(e => e.PersonId == id)).GetValueOrDefault();
         }
     }
 }

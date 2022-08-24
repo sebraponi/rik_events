@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Events.Domain
+namespace Events.ViewModels
 {
-    public class Person
+    public partial class PersonsView
     {
         public int PersonId { get; set; }
         [Display(Name = "Eesnimi:")]
@@ -11,7 +10,7 @@ namespace Events.Domain
         [StringLength(50, MinimumLength = 3)]
         public string FirstName { get; set; } = string.Empty;
         [Display(Name = "Perenimi:")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z]*$", ErrorMessage = "Pereimel peab olema suur algustäht!")]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z]*$", ErrorMessage = "Perenimel peab olema suur algustäht!")]
         [StringLength(50, MinimumLength = 3)]
         public string LastName { get; set; } = string.Empty;
         [Display(Name = "Isikukood:")]
@@ -20,11 +19,6 @@ namespace Events.Domain
         public string PaymentType { get; set; } = string.Empty;
         [Display(Name = "Lisainfo:")]
         public string Description { get; set; } = string.Empty;
-
-        public ICollection<EventPerson>? EventPersons { get; set; }
-
-        [NotMapped]
-        public int EventID { get; set; }    
 
         [Display(Name = "Full Name")]
         public string FullName

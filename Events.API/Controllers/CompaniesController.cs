@@ -56,15 +56,37 @@ namespace Events.API.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CompanyId,Name,Description")] Company company)
+        public async Task<IActionResult> Create([Bind("CompanyId,Name,Description,RegistryCode,EventID")] Company company)
         {
+            int Id = company.EventID;
+
             if (ModelState.IsValid)
             {
                 _context.Add(company);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var eventcompany = new EventCompany
+                {
+                    EventId = company.EventID,
+                    CompanyId = company.CompanyId
+                };
+
+                ModelState.Clear();
+
+                var eventCompaniesInDatabase = _context.EventsCompanies.Where(
+                    p =>
+                        p.Event.EventId == eventcompany.EventId &&
+                        p.Company.CompanyId == eventcompany.CompanyId).SingleOrDefault();
+
+                if (eventCompaniesInDatabase == null)
+                {
+                    _context.EventsCompanies.Add(eventcompany);
+                }
+                await _context.SaveChangesAsync();
+
+                RedirectToAction("Details", "Events", new { id = Id });
             }
-            return View(company);
+            return RedirectToAction("Details", "Events", new { id = Id });
         }
 
         // GET: Companies/Edit/5

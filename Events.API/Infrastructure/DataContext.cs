@@ -1,52 +1,37 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Events.Domain;
+using Events.API.ViewModels;
+
 
 namespace Events.API.Infrastructure
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> opts)
-            : base(opts) { }
+        public DataContext(DbContextOptions<DataContext> options) 
+            : base(options) { }
 
         public DbSet<Event> Events => Set<Event>();
-        public DbSet<Person> PrivatePeople => Set<Person>();
+        public DbSet<Person> People => Set<Person>();
+        public DbSet<EventPerson> PublicPeople => Set<EventPerson>();
         public DbSet<Company> Companies => Set<Company>();
+        public DbSet<EventCompany> EventsCompanies => Set<EventCompany>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Event>()
-                .HasMany(p => p.PrivatePeople)
-                .WithMany(p => p.Events)
-                .UsingEntity<EventPerson>(
-                    j => j
-                        .HasOne(pt => pt.Person)
-                        .WithMany(t => t.EventPersons)
-                        .HasForeignKey(pt => pt.PersonId),
-                    j => j
-                        .HasOne(pt => pt.Event)
-                        .WithMany(p => p.EventPrivatePeople)
-                        .HasForeignKey(pt => pt.EventId),
-                    j =>
-                    {
-                        j.HasKey(t => new { t.EventId, t.PersonId });
-                    });
+            modelBuilder.Entity<Event>().ToTable("Event");
+            modelBuilder.Entity<Person>().ToTable("Person");
+            modelBuilder.Entity<EventPerson>().ToTable("EventPerson");
+            modelBuilder.Entity<Company>().ToTable("Company");
+            modelBuilder.Entity<EventCompany>().ToTable("EventCompany");
 
-            modelBuilder.Entity<Event>()
-                  .HasMany(p => p.Companies)
-                  .WithMany(p => p.Events)
-                  .UsingEntity<EventCompany>(
-                      j => j
-                          .HasOne(pt => pt.Company)
-                          .WithMany(t => t.EventCompanies)
-                          .HasForeignKey(pt => pt.CompanyId),
-                      j => j
-                          .HasOne(pt => pt.Event)
-                          .WithMany(p => p.EventCompanies)
-                          .HasForeignKey(pt => pt.EventId),
-                      j =>
-                      {
-                          j.HasKey(t => new { t.EventId, t.CompanyId });
-                      });
+            modelBuilder.Entity<EventCompany>()
+                .HasKey(c => new { c.EventId, c.CompanyId });
+
+            modelBuilder.Entity<EventPerson>()
+                .HasKey(p => new { p.EventId, p.PersonId });
         }
     }
 }

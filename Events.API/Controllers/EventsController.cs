@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Events.API.Infrastructure;
 using Events.Domain;
-using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Events.API.Controllers
 {
@@ -20,29 +19,29 @@ namespace Events.API.Controllers
             _context = context;
         }
 
-
-
         // GET: Events
         public async Task<IActionResult> Index()
         {
-              return _context.Events != null ? 
-                          View(await _context.Events.ToListAsync()) :
-                          Problem("Entity set 'DataContext.Events'  is null.");
+            return _context.Events != null ?
+                        View(await _context.Events.ToListAsync()) :
+                        Problem("Entity set 'DataContext.Events'  is null.");
         }
 
         // GET: Events/Details/5
-        public async Task<IActionResult> Details(int? id, Person privatePerson)
+        public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.FirstName = privatePerson.FirstName;
-            ViewBag.LastName = privatePerson.LastName;
-            ViewBag.Description = privatePerson.Description;
-            if (id == null || _context.Events == null)
+            if (id == null)
             {
                 return NotFound();
             }
-
             var @event = await _context.Events
+                .Include(e => e.EventPersons)
+                    .ThenInclude(e => e.Person)
+                .Include(e => e.EventCompanies)
+                    .ThenInclude(e => e.Company)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.EventId == id);
+
             if (@event == null)
             {
                 return NotFound();
@@ -64,23 +63,10 @@ namespace Events.API.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EventId,EventTitle,Date,EventVenue,EventDescription")] Event @event)
         {
-  /*          if (ModelState.IsValid)
-            {*/
-                _context.Add(@event);
-                await _context.SaveChangesAsync();
-                return View("../Events/Index");
-            //
-            
+            _context.Add(@event);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Events");        
         }
-
-        [HttpPost]
-        public ActionResult CreatePerson(FormCollection collection)
-        {
-            _context.Add(collection);
-            _context.SaveChanges();
-            return View("../Events/Index");
-        }
-
 
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -127,10 +113,11 @@ namespace Events.API.Controllers
                         throw;
                     }
                 }
-                return View("../Home/Index");
+                return RedirectToAction("Index", "Events");
             }
             return View(@event);
         }
+
 
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)

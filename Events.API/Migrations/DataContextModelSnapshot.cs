@@ -36,11 +36,15 @@ namespace Events.API.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<long>("RegistryCode")
+                        .HasColumnType("bigint");
 
                     b.HasKey("CompanyId");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Company", (string)null);
                 });
 
             modelBuilder.Entity("Events.Domain.Event", b =>
@@ -56,11 +60,13 @@ namespace Events.API.Migrations
 
                     b.Property<string>("EventDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("EventTitle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("EventVenue")
                         .IsRequired()
@@ -68,7 +74,7 @@ namespace Events.API.Migrations
 
                     b.HasKey("EventId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Event", (string)null);
                 });
 
             modelBuilder.Entity("Events.Domain.EventCompany", b =>
@@ -83,7 +89,7 @@ namespace Events.API.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("EventCompany");
+                    b.ToTable("EventCompany", (string)null);
                 });
 
             modelBuilder.Entity("Events.Domain.EventPerson", b =>
@@ -94,11 +100,14 @@ namespace Events.API.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
+                    b.Property<int>("EventPersonId")
+                        .HasColumnType("int");
+
                     b.HasKey("EventId", "PersonId");
 
                     b.HasIndex("PersonId");
 
-                    b.ToTable("EventPerson");
+                    b.ToTable("EventPerson", (string)null);
                 });
 
             modelBuilder.Entity("Events.Domain.Person", b =>
@@ -115,15 +124,24 @@ namespace Events.API.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PaymentType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("PersonalCode")
+                        .HasColumnType("bigint");
 
                     b.HasKey("PersonId");
 
-                    b.ToTable("PrivatePeople");
+                    b.ToTable("Person", (string)null);
                 });
 
             modelBuilder.Entity("Events.Domain.EventCompany", b =>

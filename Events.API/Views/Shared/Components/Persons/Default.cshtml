@@ -1,30 +1,17 @@
 ﻿@model Events.Domain.Person
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Create";
 }
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Nullam</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Events.API.styles.css" asp-append-version="true" />
-
-</head>
-
-
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-controller="Persons" asp-action="Create">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
-                <h1>lakdjsfalkjf</h1>
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
@@ -32,19 +19,33 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PersonalCode" class="control-label"></label>
+                <input asp-for="PersonalCode" class="form-control" />
+                <span asp-validation-for="PersonalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentType" class="control-label"></label>
+                <input asp-for="PaymentType" class="form-control" />
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-controller="Persons" type="submit" value="Salvesta" class="btn btn-primary" />
+                <input asp-for="EventID" type="hidden" class="form-control" value="@ViewBag.Id" />
+            </div>
+            <div class="form-group">
+                <input asp-controller="Persons" asp-action="Create" type="submit" value="Salvesta" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-
 }
