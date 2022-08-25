@@ -35,7 +35,6 @@ namespace Events.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // GET: Persons/Details/5
-        [HttpGet("Persons/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.People == null)
@@ -133,7 +132,7 @@ namespace Events.API.Controllers
         /// <summary>
         /// Edits a Person.
         /// </summary>
-        /// <param id="id"></param>
+        /// <param name="id"></param>
         /// <param name="privatePerson"></param>
         /// <returns>A newly created Event</returns>
         /// <remarks>
@@ -186,13 +185,8 @@ namespace Events.API.Controllers
             return RedirectToAction("Index", "Events"); ;
         }
 
-        /// <summary>
-        /// Deletes an Person.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        // GET: Persons/Delete/5
-        [HttpDelete("Persons/Delete/{id}")]
+
+       
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.People == null)
@@ -210,8 +204,14 @@ namespace Events.API.Controllers
             return View(privatePerson);
         }
 
-        // POST: PrivatePersons/Delete/5
-        [HttpPost, ActionName("Delete")]
+        /// <summary>
+        /// Deletes an Person.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        // GET: Persons/Delete/5
+        // POST: Persons/Delete/5
+        [HttpPost("Persons/Delete/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

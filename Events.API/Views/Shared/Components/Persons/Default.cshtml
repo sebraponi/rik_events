@@ -4,8 +4,6 @@
     ViewData["Title"] = "Create";
 }
 
-
-
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group py-1">
@@ -40,8 +38,7 @@
             <label asp-for="PaymentType" class="control-label"></label>
             <div class="col-sm-8">
                 <select asp-for="PaymentType" class="form-control">
-                    <option value="Pangaülekandega">Pangaülekandega</option>
-                    <option value="Kohapeal">Kohapeal</option>
+                    @await Component.InvokeAsync("Payments")
                 </select>
                 <span asp-validation-for="PaymentType" class="text-danger"></span>
             </div>

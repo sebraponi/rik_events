@@ -3,7 +3,7 @@ using Events.API.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Events.API.Views.Shared.Components.Persons
+namespace Events.API.Views.Shared.Persons.Components
 {
     public class PersonsViewComponent : ViewComponent
     {

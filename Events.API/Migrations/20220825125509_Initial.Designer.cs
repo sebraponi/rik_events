@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Events.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220823164429_Initial")]
+    [Migration("20220825125509_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,7 @@ namespace Events.API.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -112,6 +113,22 @@ namespace Events.API.Migrations
                     b.ToTable("EventPerson", (string)null);
                 });
 
+            modelBuilder.Entity("Events.Domain.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"), 1L, 1);
+
+                    b.Property<string>("PaymentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PaymentId");
+
+                    b.ToTable("Payment", (string)null);
+                });
+
             modelBuilder.Entity("Events.Domain.Person", b =>
                 {
                     b.Property<int>("PersonId")
@@ -122,7 +139,8 @@ namespace Events.API.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1500)
+                        .HasColumnType("nvarchar(1500)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

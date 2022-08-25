@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Events.Domain.Payment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@foreach (var item in Model)
+{
+    <option>@Html.DisplayFor(model => item.PaymentType)</option>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -210,7 +210,7 @@ namespace Events.API.Controllers
         /// <returns></returns>
         // POST: Companies/Delete/5
         [ValidateAntiForgeryToken]
-        [HttpDelete("Companies/Delete/{id}")]
+        [HttpPost("Companies/Delete/{id}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Companies == null)

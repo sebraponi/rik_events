@@ -22,12 +22,12 @@ namespace Events.API.Infrastructure
                 {
                     EventTitle = "Rakvere Suvi",
                     EventVenue = "Rakvere",
-                    Date = DateTime.Now            
+                    Date = DateTime.Now
                 });
 
                 var persons = new Person[] {
 
-                   new Person { FirstName = "Andres", LastName = "Rebane", 
+                   new Person { FirstName = "Andres", LastName = "Rebane",
                        PersonalCode = 37507090173 },
                    new Person { FirstName = "Urmas", LastName = "Raudsep",
                        PersonalCode = 38305207088 },
@@ -152,6 +152,16 @@ namespace Events.API.Infrastructure
                         }
                     }
                 }
+                context.SaveChanges();
+
+                context.Payments.Add(
+                    new Payment { PaymentType = "Kaardimakse" }
+                    );
+
+                context.Payments.Add(
+                    new Payment { PaymentType = "Sularahas" }
+                    );
+
                 context.SaveChanges();
             }
         }

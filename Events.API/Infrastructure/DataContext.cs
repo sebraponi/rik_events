@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Events.Domain;
 
-
 namespace Events.API.Infrastructure
 {
     public class DataContext : DbContext
@@ -14,6 +13,7 @@ namespace Events.API.Infrastructure
 
         public DbSet<Event> Events => Set<Event>();
         public DbSet<Person> People => Set<Person>();
+        public DbSet<Payment> Payments => Set<Payment>();
         public DbSet<EventPerson> PublicPeople => Set<EventPerson>();
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<EventCompany> EventsCompanies => Set<EventCompany>();
@@ -25,6 +25,7 @@ namespace Events.API.Infrastructure
             modelBuilder.Entity<EventPerson>().ToTable("EventPerson");
             modelBuilder.Entity<Company>().ToTable("Company");
             modelBuilder.Entity<EventCompany>().ToTable("EventCompany");
+            modelBuilder.Entity<Payment>().ToTable("Payment"); 
 
             modelBuilder.Entity<EventCompany>()
                 .HasKey(c => new { c.EventId, c.CompanyId });
