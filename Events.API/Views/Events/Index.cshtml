@@ -5,62 +5,89 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row">
-    <div class="col">
-        <div class="card text-bg-light mb-3">
-            <div class="card-header text-center">Tulevased üritused</div>
-            <div class="card-body">
-                <table class="table">
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            @if (item.Date > @DateTime.Now)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EventTitle)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Date)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Details" asp-route-id="@item.EventId" class="text-decoration-none">OSAVÕTJAD</a>
-                                        <img src="~/remove.svg" title="" alt="" style="width:16px;height:16px;"/>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
+
+<div class="container fs-4">
+    <div class="row" style="height: 18.6rem;">
+        <div class="col-5 header-bg col-md-45 fw-normal px-5 d-flex align-items-center">
+            <span>
+                Sed nec elit vestibulum, <b>tincidunt orci</b> et,
+                sagittis ex. Vestibulum rutrum <b>neque suscipit</b> ante
+                mattis maximus. Nulla non sapien <b>viverra</b>,
+                <b>lobortis lorem non</b>, accumsan metus.
+            </span>
         </div>
-    </div>
-    <div class="col">
-        <div class="card text-bg-light mb-3">
-            <div class="card-header text-center">Toimunud üritused</div>
-            <div class="card-body">
-                <table class="table">
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            @if (item.Date < @DateTime.Now) {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.EventTitle)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Date)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Details" asp-route-id="@item.EventId" class="text-decoration-none">OSAVÕTJAD</a>
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
+        <div class="col frontpage-image-container">
         </div>
     </div>
 </div>
 
+<div class="py-4">
+    <div class="row">
+        <div class="col">
+            <div class="card text-bg-light mb-3 border-0" style="height: 21rem;">
+                <div class="card-header text-center header-bg fs-4 fw-normal" style="height: 4.8rem;">Tulevased üritused</div>
+                <div class="card-body scroll border-0">
+                    <table class="table table-borderless">
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                @if (item.Date > @DateTime.Now)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EventId).
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EventTitle)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Details" asp-route-id="@item.EventId" class="text-decoration-none">OSAVÕTJAD</a>
+                                            <img src="~/remove.svg" title="" alt="" style="width:16px;height:16px;" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer bg-white border-0">
+                    <a asp-controller="Events" asp-action="Create" class="text-decoration-none">LISA ÜRITUS</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card text-bg-light border-0" style="height: 22rem;">
+                <div class="card-header py-3 text-center header-bg fs-4 fw-normal">Toimunud üritused</div>
+                <div class="card-body scroll">
+                    <table class="table table-borderless">
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                @if (item.Date < @DateTime.Now)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EventId).
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EventTitle)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Details" asp-route-id="@item.EventId" class="text-decoration-none">OSAVÕTJAD</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

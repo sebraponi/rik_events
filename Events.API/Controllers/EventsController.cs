@@ -12,6 +12,7 @@ namespace Events.API.Controllers
 {
     public class EventsController : Controller
     {
+
         private readonly DataContext _context;
 
         public EventsController(DataContext context)
@@ -19,7 +20,7 @@ namespace Events.API.Controllers
             _context = context;
         }
 
-        // GET: Events
+
         public async Task<IActionResult> Index()
         {
             return _context.Events != null ?
@@ -27,7 +28,13 @@ namespace Events.API.Controllers
                         Problem("Entity set 'DataContext.Events'  is null.");
         }
 
+        /// <summary>
+        /// Events detail page.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: Events/Details/5
+        [HttpGet("Events/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,15 +58,36 @@ namespace Events.API.Controllers
         }
 
         // GET: Events/Create
+        [HttpGet("Events/Create")]
         public IActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// Creates a Event.
+        /// </summary>
+        /// <param name="event"></param>
+        /// <returns>A newly created Event</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Event/Create
+        ///       {
+        ///            "EventId": 1,
+        ///            "EventTitle": "Title",
+        ///            "EventDescription": "Description",
+        ///            "EventVenue": "Venue",
+        ///            "Date": "24/08/2022 22:14"
+        ///        }
+        ///
+        /// </remarks>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>
         // POST: Events/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Events/Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EventId,EventTitle,Date,EventVenue,EventDescription")] Event @event)
         {
@@ -83,10 +111,11 @@ namespace Events.API.Controllers
             return View(@event);
         }
 
+
         // POST: Events/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Events/Edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTitle,EventDescription,Date,EventVenue")] Event @event)
         {
@@ -118,7 +147,12 @@ namespace Events.API.Controllers
             return View(@event);
         }
 
-
+        /// <summary>
+        /// Deletes an event.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        // GET: Events
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -137,8 +171,13 @@ namespace Events.API.Controllers
             return View(@event);
         }
 
+        /// <summary>
+        /// Deletes an event.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // POST: Events/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("Events/Delete/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

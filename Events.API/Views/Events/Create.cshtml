@@ -5,28 +5,7 @@
     ViewData["Title"] = "Create";
 }
 
-<style type="text/css">
-    .image-container {
-        background-image: url(../libled.jpg);
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    .text-bg-custom {
-        background-color: #205aa0;
-        color: #fff !important;
-    }
-</style>
-
-<div class="container">
-    <div class="row">
-        <div class="col-6 col-md-3 text-bg-custom text-center">
-            <p class="fw-light fs-1 my-2">Ürituse lisamine</p>
-        </div>
-        <div class="col-md-8 image-container">
-        </div>
-    </div>
-</div>
+@await Html.PartialAsync("_ViewStrip", "Ürituse lisamine")
 
 <div class="container mx-auto">
     <div class="row justify-content-md-center">
@@ -49,7 +28,7 @@
                     <div class="row">
                         <label asp-for="Date" class="col-sm-4 col-form-label">Toimumisaeg:</label>
                         <div class="col-sm-8">
-                            <input asp-for="Date" type="text"  value="pp.kk.aaaa hh:mm" class="form-control" />
+                            <input asp-for="Date" type="text" placeholder="pp.kk.aaaa hh:mm" class="form-control" />
                             <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
                     </div>
@@ -86,9 +65,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $.validator.addMethod("dateFA", function (value, element) {
-            return this.optional(element) || /^[1-4]\d{3}\/((0?[1-6]\/((3[0-1])|([1-2][0-9])|(0?[1-9])))|((1[0-2]|(0?[7-9]))\/(30|([1-2][0-9])|(0?[1-9]))))$/.test(value);
-        }, $.validator.messages.date);
-    </script>
+
 }

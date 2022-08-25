@@ -140,9 +140,9 @@ namespace Events.API.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Events");
             }
-            return View(privatePerson);
+            return RedirectToAction("Index", "Events"); ;
         }
 
         // GET: PrivatePersons/Delete/5

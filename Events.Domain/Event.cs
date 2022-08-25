@@ -2,6 +2,7 @@
 using System;
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Events.Domain
 {
@@ -21,7 +22,6 @@ namespace Events.Domain
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
-        
         
         public ICollection<EventPerson>? EventPersons { get; set; }
         public ICollection<EventCompany>? EventCompanies { get; set; }

@@ -6,46 +6,7 @@
     ViewData["Title"] = "Details";
 }
 
-
-<style type="text/css">
-    .image-container {
-        background-image: url(../../libled.jpg);
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
-    .text-bg-custom {
-        background-color: #205aa0;
-        color: #fff !important;
-    }
-
-    .bussines-type .business-fields {
-        display: none;
-    }
-
-    .bussines-type .private-fields {
-        display: none;
-    }
-
-    .bussines-type input[value="1"]:checked ~ .private-fields {
-        display: block;
-    }
-
-    .bussines-type input[value="2"]:checked ~ .business-fields {
-        display: block;
-    }
-</style>
-
-<div class="container">
-    <div class="row">
-        <div class="col-6 col-md-3 text-bg-custom text-center">
-            <p class="fw-light fs-1 my-2">Osavõtjad</p>
-        </div>
-        <div class="col-md-8 image-container">
-        </div>
-    </div>
-</div>
+@await Html.PartialAsync("_ViewStrip", "Osavõtjad")
 
 <div class="container mx-auto">
     <div class="row justify-content-md-center">
@@ -70,53 +31,88 @@
                 <dd class = "col-sm-8">
                     @Html.DisplayFor(model => model.EventVenue)
                 </dd>
+
+                <dt class = "col-sm-4">
+                    Osavõtjad:
+                </dt>
+                    <dt class="col-sm-8">
+
+                    </dt>
+                    <div class="col-sm-8">
+                    </div>
+
             </dl>
-            </div>
         </div>
     </div>
 
-@foreach (var person in Model.EventPersons)
-{
-    <table>
-        <tr>
-            <td>
-                @Html.DisplayFor(modelPerson => person.Person.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelPerson => person.Person.PersonalCode)
-            </td>
-            <td>
-                <a asp-controller="Persons" asp-action="Details" asp-route-id="@person.PersonId" class="text-decoration-none">VAATA</a>
-            </td>
-            <td>
-                <a asp-controller="Persons" asp-action="Delete" asp-route-id="@person.PersonId" class="text-decoration-none">KUSTUTA</a>
-            </td>
-        </tr>
-    </table>
-}
+    <div class="row justify-content-md-center">
+        <div class="col col-md-5">
 
-@foreach (var company in Model.EventCompanies)
-{
-    <table>
-       <tr>
-            <td>
-                @Html.DisplayFor(modelPerson => company.Company.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelPerson => company.Company.RegistryCode)
-            </td>
-            <td>
-                <a asp-controller="Companies" asp-action="Details" asp-route-id="@company.CompanyId" class="text-decoration-none">VAATA</a>
-            </td>
-            <td>
-                <a asp-controller="Companies" asp-action="Delete" asp-route-id="@company.CompanyId" class="text-decoration-none">KUSTUTA</a>
-            </td>
-        </tr>
-    </table>
-}
-<hr />
+        </div>
+        <div class="col px-4">
+            <table class="table table-borderless px-5">
+                <tbody>
+                    @foreach (var person in Model.EventPersons)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelPerson => person.Person.PersonId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelPerson => person.Person.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelPerson => person.Person.PersonalCode)
+                            </td>
+                            <td>
+                                <a asp-controller="Persons" asp-action="Details" asp-route-id="@person.PersonId" class="text-decoration-none">VAATA</a>
+                            </td>
+                            <td>
+                                <a asp-controller="Persons" asp-action="Delete" asp-route-id="@person.PersonId" class="text-decoration-none">KUSTUTA</a>
+                            </td>
+                        </tr>
+                    }
+                    @foreach (var company in Model.EventCompanies)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelPerson => company.Company.CompanyId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelPerson => company.Company.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelPerson => company.Company.RegistryCode)
+                            </td>
+                            <td>
+                                <a asp-controller="Companies" asp-action="Details" asp-route-id="@company.CompanyId" class="text-decoration-none">VAATA</a>
+                            </td>
+                            <td>
+                                <a asp-controller="Companies" asp-action="Delete" asp-route-id="@company.CompanyId" class="text-decoration-none">KUSTUTA</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<div class="bussines-type">
+
+
+ 
+
+
+<div class="container mx-auto">
+    <div class="row justify-content-md-center">
+        <div class="col-md-5">
+            <p class="py-3 fw-light fs-2">Osavõtjate lisamine</p>
+
+        </div>
+    </div>
+</div>
+
+<div class="bussines-type justify-content-center">
     <input id="bt1" type="radio" name="type" value="1">
     <label for="bt1"> Eraisik</label>
     <input id="bt2" type="radio" name="type" value="2">
@@ -129,6 +125,7 @@
         @await Component.InvokeAsync("Companies", new { id = Model.EventId })
     </div>
 </div>
+
 
 @section Scripts {
     @{

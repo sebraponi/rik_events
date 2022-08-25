@@ -135,9 +135,9 @@ namespace Events.API.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Events");
             }
-            return View(company);
+            return RedirectToAction("Index", "Events");
         }
 
         // GET: Companies/Delete/5
@@ -174,7 +174,7 @@ namespace Events.API.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Events");
         }
 
         private bool CompanyExists(int id)
