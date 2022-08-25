@@ -19,6 +19,7 @@ namespace Events.Domain
         [Display(Name = "Maksmisviis:")]
         public string PaymentType { get; set; } = string.Empty;
         [Display(Name = "Lisainfo:")]
+        [StringLength(1500, MinimumLength = 3)]
         public string Description { get; set; } = string.Empty;
 
         public ICollection<EventPerson>? EventPersons { get; set; }

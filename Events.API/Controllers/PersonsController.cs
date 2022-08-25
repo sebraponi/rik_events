@@ -21,7 +21,7 @@ namespace Events.API.Controllers
             _context = context;
         }
 
-        // GET: PrivatePersons
+        // GET: Persons
         public async Task<IActionResult> Index()
         {
               return _context.People != null ? 
@@ -29,7 +29,13 @@ namespace Events.API.Controllers
                           Problem("Entity set 'DataContext.EventPersons'  is null.");
         }
 
-        // GET: PrivatePersons/Details/5
+        /// <summary>
+        /// Persons detail view.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        // GET: Persons/Details/5
+        [HttpGet("Persons/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.People == null)
@@ -47,16 +53,30 @@ namespace Events.API.Controllers
             return View(privatePerson);
         }
 
-        // GET: PrivatePersons/Create
-/*        public IActionResult Create()
-        {
-            return View();
-        }
-*/
-        // POST: PrivatePersons/Create
+        /// <summary>
+        /// Creates a Person.
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns>A newly created Event</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Persons/Create
+        ///       {
+        ///            "PersonId": 1,
+        ///            "FirstName": "FirstName",
+        ///            "LastName": "LastName",
+        ///            "Description": "Description",
+        ///            "PersonalCode": 37907063298
+        ///        }
+        ///
+        /// </remarks>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>
+        // POST: Persons/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Persons/Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PersonId,FirstName,LastName,PersonalCode,PaymentType,Description,EventID")] Person person)
         {
@@ -110,10 +130,31 @@ namespace Events.API.Controllers
             return View(privatePerson);
         }
 
-        // POST: PrivatePersons/Edit/5
+        /// <summary>
+        /// Edits a Person.
+        /// </summary>
+        /// <param id="id"></param>
+        /// <param name="privatePerson"></param>
+        /// <returns>A newly created Event</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Persons/Create
+        ///       {
+        ///            "PersonId": 1,
+        ///            "FirstName": "FirstName",
+        ///            "LastName": "LastName",
+        ///            "Description": "Description",
+        ///            "PersonalCode": 37907063298
+        ///        }
+        ///
+        /// </remarks>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>
+        // POST: Persons/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Persons/Edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PersonId,FirstName,LastName,Description")] Person privatePerson)
         {
@@ -145,7 +186,13 @@ namespace Events.API.Controllers
             return RedirectToAction("Index", "Events"); ;
         }
 
-        // GET: PrivatePersons/Delete/5
+        /// <summary>
+        /// Deletes an Person.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        // GET: Persons/Delete/5
+        [HttpDelete("Persons/Delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.People == null)

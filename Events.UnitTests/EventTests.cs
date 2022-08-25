@@ -12,6 +12,7 @@ namespace Events.UnitTests
             {
                 EventTitle = "Rakvere Suvi",
                 EventVenue = "Rakvere",
+                EventDescription = "Suvi Rakveres",
                 Date = DateTime.Now,
             };
 

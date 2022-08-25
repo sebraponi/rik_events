@@ -68,7 +68,10 @@
                                 <a asp-controller="Persons" asp-action="Details" asp-route-id="@person.PersonId" class="text-decoration-none">VAATA</a>
                             </td>
                             <td>
-                                <a asp-controller="Persons" asp-action="Delete" asp-route-id="@person.PersonId" class="text-decoration-none">KUSTUTA</a>
+                                @if (Model.Date > @DateTime.Now)
+                                {
+                                    <a asp-controller="Persons" asp-action="Delete" asp-route-id="@person.PersonId" class="text-decoration-none">KUSTUTA</a>
+                                }
                             </td>
                         </tr>
                     }
@@ -88,7 +91,9 @@
                                 <a asp-controller="Companies" asp-action="Details" asp-route-id="@company.CompanyId" class="text-decoration-none">VAATA</a>
                             </td>
                             <td>
-                                <a asp-controller="Companies" asp-action="Delete" asp-route-id="@company.CompanyId" class="text-decoration-none">KUSTUTA</a>
+                                @if (Model.Date > @DateTime.Now) {
+                                    <a asp-controller="Companies" asp-action="Delete" asp-route-id="@company.CompanyId" class="text-decoration-none">KUSTUTA</a>
+                                }
                             </td>
                         </tr>
                     }
@@ -101,30 +106,41 @@
 
 
  
+@if (Model.Date > @DateTime.Now)
+{
+    <div class="bussines-type container mx-auto">
+        <div class="row justify-content-md-center">
+            <div class="col-md-5">
+                <p class="py-3 fw-light fs-2">Osavõtjate lisamine</p>
 
+                <div class="bussines-type">
+                    <input id="bt1" type="radio" name="type" checked="checked" value="1">
+                    <label for="bt1"> Eraisik</label>
+                    <input id="bt2" type="radio" name="type" value="2">
+                    <label for="bt2"> Ettevõte</label>
 
-<div class="container mx-auto">
-    <div class="row justify-content-md-center">
-        <div class="col-md-5">
-            <p class="py-3 fw-light fs-2">Osavõtjate lisamine</p>
-
+                    <div class="private-fields">
+                        @await Component.InvokeAsync("Persons", new { id = Model.EventId })
+                    </div>
+                    <div class="business-fields">
+                        @await Component.InvokeAsync("Companies", new { id = Model.EventId })
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-<div class="bussines-type justify-content-center">
-    <input id="bt1" type="radio" name="type" value="1">
-    <label for="bt1"> Eraisik</label>
-    <input id="bt2" type="radio" name="type" value="2">
-    <label for="bt2"> Ettevõte</label>
 
-    <div class="private-fields">
-        @await Component.InvokeAsync("Persons", new { id = Model.EventId })
+
+
+
     </div>
-    <div class="business-fields">
-        @await Component.InvokeAsync("Companies", new { id = Model.EventId })
-    </div>
-</div>
+
+
+
+
+}
+
+
 
 
 @section Scripts {

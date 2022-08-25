@@ -27,7 +27,13 @@ namespace Events.API.Controllers
                           Problem("Entity set 'DataContext.Companies'  is null.");
         }
 
+        /// <summary>
+        /// Companies detail view.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: Companies/Details/5
+        [HttpGet("Companies/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Companies == null)
@@ -51,10 +57,29 @@ namespace Events.API.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Creates a Company.
+        /// </summary>
+        /// <param name="company"></param>
+        /// <returns>A newly created Event</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Events/Create
+        ///       {
+        ///            "CompanyId": 1,
+        ///            "Name": "Title",
+        ///            "Description": "Description",
+        ///            "RegistryCode": "234245"
+        ///        }
+        ///
+        /// </remarks>
+        /// <response code="201">Returns the newly created item</response>
+        /// <response code="400">If the item is null</response>
         // POST: Companies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Companies/Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CompanyId,Name,Description,RegistryCode,EventID")] Company company)
         {
@@ -105,10 +130,30 @@ namespace Events.API.Controllers
             return View(company);
         }
 
+        /// <summary>
+        /// Edits Company.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="company"></param>
+        /// <returns>A newly created Event</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Events/Create
+        ///       {
+        ///            "CompanyId": 1,
+        ///            "Name": "Title",
+        ///            "Description": "Description",
+        ///            "RegistryCode": "234245"
+        ///        }
+        ///
+        /// </remarks>
+        /// <response code="201">Returns the edited item</response>
+        /// <response code="400">If the item is null</response>
         // POST: Companies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("Companies/Edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CompanyId,Name,Description")] Company company)
         {
@@ -158,9 +203,14 @@ namespace Events.API.Controllers
             return View(company);
         }
 
+        /// <summary>
+        /// Deletes an Company.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // POST: Companies/Delete/5
-        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [HttpDelete("Companies/Delete/{id}")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Companies == null)

@@ -29,7 +29,7 @@ namespace Events.API.Controllers
         }
 
         /// <summary>
-        /// Events detail page.
+        /// Events detail view.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -58,7 +58,6 @@ namespace Events.API.Controllers
         }
 
         // GET: Events/Create
-        [HttpGet("Events/Create")]
         public IActionResult Create()
         {
             return View();
@@ -72,7 +71,7 @@ namespace Events.API.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST /Event/Create
+        ///     POST /Events/Create
         ///       {
         ///            "EventId": 1,
         ///            "EventTitle": "Title",
@@ -111,7 +110,27 @@ namespace Events.API.Controllers
             return View(@event);
         }
 
-
+        /// <summary>
+        /// Edits Event.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="event"></param>
+        /// <returns>A newly created Event</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Events/Edit/{id}
+        ///       {
+        ///            "EventId": 1,
+        ///            "EventTitle": "Title",
+        ///            "EventDescription": "Description",
+        ///            "EventVenue": "Venue",
+        ///            "Date": "24/08/2022 22:14"
+        ///        }
+        ///
+        /// </remarks>
+        /// <response code="201">Returns the edited item</response>
+        /// <response code="400">If the item is null</response>
         // POST: Events/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -147,11 +166,6 @@ namespace Events.API.Controllers
             return View(@event);
         }
 
-        /// <summary>
-        /// Deletes an event.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
         // GET: Events
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -177,7 +191,7 @@ namespace Events.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         // POST: Events/Delete/5
-        [HttpPost("Events/Delete/{id}")]
+        [HttpDelete("Events/Delete/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

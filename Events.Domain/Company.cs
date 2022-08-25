@@ -12,6 +12,8 @@ namespace Events.Domain
         public string Name { get; set; } = string.Empty;
         [Display(Name = "Registrikood:")]
         public long RegistryCode { get; set; }
+        [Display(Name = "Lisainfo:")]
+        [StringLength(5000, MinimumLength = 3)]
         public string Description { get; set; } = string.Empty;
 
         [NotMapped]
