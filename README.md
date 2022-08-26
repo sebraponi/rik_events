@@ -10,5 +10,6 @@ In cloned folder open solution Events.sln
 
 ```bash
 cd Events.API
+dotnet build
 dotnet ef database update
 ```
