@@ -36,6 +36,7 @@
         <input asp-for="EventID" type="hidden" class="form-control" value="@ViewBag.Id" />
     </div>
     <div class="form-group pt-3">
+        <a asp-controller="Events" asp-action="Index" role="button" class="btn btn-secondary">Tagasi</a>
         <input asp-controller="Companies" asp-action="Create" type="submit" value="Salvesta" class="btn btn-primary" />
     </div>
 </form>
