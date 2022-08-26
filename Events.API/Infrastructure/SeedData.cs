@@ -1,5 +1,6 @@
 ﻿using Events.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Events.API.Infrastructure
@@ -58,10 +59,10 @@ namespace Events.API.Infrastructure
                 context.SaveChanges();
 
                 var events = new Event[] {
-                    new Event { EventTitle = "Metsa Festival", EventVenue = "Jõgeva", Date = DateTime.Parse("12/04/2023 12:00") },
-                    new Event { EventTitle = "Kadripäev", EventVenue = "Rakvere vallimägi", Date = DateTime.Parse("25/11/2022 14:00") },
-                    new Event { EventTitle = "Kevade algus", EventVenue = "Kunda", Date = DateTime.Parse("20/03/2022 17:33") },
-                    new Event { EventTitle = "Raasiku väliujula avamine", EventVenue = "Raasiku", Date = DateTime.Parse("10/06/2022 10:00") }
+                    new Event { EventTitle = "Metsa Festival", EventVenue = "Jõgeva", Date = DateTime.Parse("12/04/2023 12:00", CultureInfo.CreateSpecificCulture("et-EE")) },
+                    new Event { EventTitle = "Kadripäev", EventVenue = "Rakvere vallimägi", Date = DateTime.Parse("25/11/2022 14:00", CultureInfo.CreateSpecificCulture("et-EE")) },
+                    new Event { EventTitle = "Kevade algus", EventVenue = "Kunda", Date = DateTime.Parse("20/03/2022 17:33", CultureInfo.CreateSpecificCulture("et-EE")) },
+                    new Event { EventTitle = "Raasiku väliujula avamine", EventVenue = "Raasiku", Date = DateTime.Parse("10/06/2022 10:00", CultureInfo.CreateSpecificCulture("et-EE")) }
                 };
 
                 context.Events.AddRange(events);
