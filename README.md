@@ -8,5 +8,7 @@ In cloned folder open solution Events.sln
 
 ### Step 2 - run commands
 
+```bash
 cd Events.API
 dotnet ef database update
+```
